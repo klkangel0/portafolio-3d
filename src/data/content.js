@@ -22,7 +22,10 @@ export const profile = {
   tagline: 'Aspiring Full Stack Developer · Vue · JavaScript · MySQL',
   ubicacion: 'Barcelona, España',
   email: 'angelmotoszambrano11@gmail.com',
+  // Retrato vertical (4:5) para la seccion "Sobre mi"
   foto: `${base}img/angel.jpg`,
+  // Recorte cuadrado de la cara para la cabecera
+  avatar: `${base}img/angel-avatar.jpg`,
   cv: `${base}cv/CV-Angel-Motos.pdf`,
   disponible: true,
 };

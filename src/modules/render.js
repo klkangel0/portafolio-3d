@@ -75,6 +75,19 @@ function pintarHero() {
     .join('');
 }
 
+/**
+ * Las fotos ya vienen puestas en el HTML para que empiecen a cargar cuanto
+ * antes; aqui solo las sincronizamos con content.js, que es donde se cambian.
+ * Si la ruta es la misma el navegador no lanza ninguna peticion extra.
+ */
+function pintarImagenes() {
+  const avatar = document.querySelector('.header__avatar');
+  if (avatar) avatar.src = profile.avatar;
+
+  const retrato = document.querySelector('.about__photo img');
+  if (retrato) retrato.src = profile.foto;
+}
+
 function pintarBanda() {
   const palabras = [
     'Full Stack Developer',
@@ -282,6 +295,7 @@ function pintarPie() {
 export function pintarTodo() {
   pintarNavegacion();
   pintarHero();
+  pintarImagenes();
   pintarBanda();
   pintarSobreMi();
   pintarStack();

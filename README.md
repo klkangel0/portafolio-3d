@@ -57,7 +57,7 @@ npm run preview  # sirve dist/ en local
 No hace falta tocar el HTML ni el CSS para actualizar la web.
 
 ```
-profile      → nombre, rol, tagline, ubicación, email, CV
+profile      → nombre, rol, tagline, ubicación, email, CV, foto y avatar
 socials      → enlaces a redes
 sobremi      → título, párrafos, estadísticas, idiomas
 stack        → grupos de tecnologías con su nivel (0-100)

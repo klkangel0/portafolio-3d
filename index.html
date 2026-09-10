@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ángel Motos · Full Stack Developer</title>
+  <meta name="description"
+    content="Portafolio de Ángel Motos, desarrollador web full stack. Vue, JavaScript, PHP y MySQL. Una experiencia interactiva construida con Three.js." />
+  <meta name="theme-color" content="#05060a" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Open Graph / redes sociales -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Ángel Motos · Full Stack Developer" />
+  <meta property="og:description" content="Portafolio interactivo en 3D. Vue · JavaScript · PHP · MySQL" />
+  <meta property="og:image" content="/img/angel.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.simpleicons.org" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body class="is-loading">
+
+  <!-- ======================================================================
+       PANTALLA DE CARGA
+       Cuenta hasta 100 mientras se prepara la escena 3D y luego se abre.
+       ====================================================================== -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__inner">
+      <div class="preloader__name" data-split>Ángel Motos</div>
+      <div class="preloader__meta">
+        <span class="preloader__label">Cargando experiencia</span>
+        <span class="preloader__count" id="preloaderCount">0</span>
+      </div>
+      <div class="preloader__bar"><span id="preloaderFill"></span></div>
+    </div>
+    <div class="preloader__curtain"></div>
+  </div>
+
+  <!-- Cursor personalizado (se oculta en dispositivos táctiles) -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"><span class="cursor__text"></span></div>
+  </div>
+
+  <!-- Lienzo WebGL de fondo: vive detrás de todo el contenido -->
+  <canvas id="gl" class="gl-canvas" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- ======================================================================
+       CABECERA FIJA
+       ====================================================================== -->
+  <header class="header" id="header">
+    <a class="header__brand" href="#inicio" data-cursor="Inicio">
+      <img src="/img/angel.jpg" alt="Ángel Motos" class="header__avatar" />
+      <span class="header__brandText">
+        <strong>Ángel Motos</strong>
+        <small>Web Developer</small>
+      </span>
+    </a>
+
+    <nav class="header__nav" id="nav" aria-label="Navegación principal"></nav>
+
+    <button class="header__toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+
+    <div class="header__progress"><span id="scrollProgress"></span></div>
+  </header>
+
+  <!-- Menú a pantalla completa para móvil -->
+  <div class="menu" id="menu" aria-hidden="true">
+    <nav class="menu__nav" id="menuNav"></nav>
+    <div class="menu__footer" id="menuSocials"></div>
+  </div>
+
+  <main id="contenido">
+
+    <!-- ====================================================================
+         HERO
+         ==================================================================== -->
+    <section class="hero section" id="inicio" data-section data-palette="oro">
+      <div class="hero__grid">
+        <div class="hero__eyebrow reveal">
+          <span class="dot"></span>
+          <span id="heroStatus">Disponible para nuevos proyectos</span>
+        </div>
+
+        <h1 class="hero__title">
+          <span class="hero__line">
+            <span class="hero__word" data-split>Full</span>
+            <span class="hero__word hero__word--outline" data-split>Stack</span>
+          </span>
+          <span class="hero__line">
+            <span class="hero__word" data-split>Developer</span>
+          </span>
+        </h1>
+
+        <p class="hero__tagline reveal" id="heroTagline"></p>
+
+        <div class="hero__actions reveal">
+          <a class="btn btn--primary magnetic" id="cvBtn" download data-cursor="Descargar">
+            <span>Descargar CV</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+            </svg>
+          </a>
+          <a class="btn btn--ghost magnetic" href="#proyectos" data-cursor="Ver">
+            <span>Ver proyectos</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14m0 0-5.5-5.5M19 12l-5.5 5.5" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="hero__socials reveal" id="heroSocials"></div>
+      </div>
+
+      <div class="hero__scroll">
+        <span>Scroll</span>
+        <div class="hero__scrollLine"><i></i></div>
+      </div>
+
+      <div class="hero__meta">
+        <span id="heroLocation"></span>
+        <span class="hero__clock" id="clock">--:--:--</span>
+      </div>
+    </section>
+
+    <!-- Marquesina de titulares -->
+    <div class="band" aria-hidden="true">
+      <div class="band__track" id="bandTrack"></div>
+    </div>
+
+    <!-- ====================================================================
+         SOBRE MÍ
+         ==================================================================== -->
+    <section class="section about" id="sobremi" data-section data-palette="violeta">
+      <div class="wrap">
+        <header class="sectionHead">
+          <span class="eyebrow reveal"><i class="dot"></i>Sobre mí</span>
+          <h2 class="sectionTitle" data-lines id="aboutTitle"></h2>
+        </header>
+
+        <div class="about__grid">
+          <div class="about__visual">
+            <div class="about__photo" data-parallax="0.12">
+              <img src="/img/angel.jpg" alt="Retrato de Ángel Motos" />
+              <div class="about__photoGlow"></div>
+              <div class="about__photoFrame"></div>
+            </div>
+            <ul class="about__langs" id="aboutLangs"></ul>
+          </div>
+
+          <div class="about__text" id="aboutText"></div>
+        </div>
+
+        <ul class="stats" id="stats"></ul>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         STACK
+         ==================================================================== -->
+    <section class="section stack" id="stack" data-section data-palette="cian">
+      <div class="wrap">
+        <header class="sectionHead">
+          <span class="eyebrow reveal"><i class="dot"></i>Stack técnico</span>
+          <h2 class="sectionTitle" data-lines>Las herramientas con las que construyo.</h2>
+        </header>
+
+        <div class="stack__grid" id="stackGrid"></div>
+      </div>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track" id="marqueeTrack"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         PROYECTOS
+         ==================================================================== -->
+    <section class="section projects" id="proyectos" data-section data-palette="oro">
+      <div class="wrap">
+        <header class="sectionHead sectionHead--split">
+          <div>
+            <span class="eyebrow reveal"><i class="dot"></i>Proyectos</span>
+            <h2 class="sectionTitle" data-lines>Trabajo seleccionado.</h2>
+          </div>
+          <div class="filters" id="filters" role="tablist" aria-label="Filtrar proyectos"></div>
+        </header>
+
+        <div class="projects__list" id="projectsList"></div>
+        <p class="projects__empty" id="projectsEmpty" hidden>
+          Todavía no hay proyectos en esta categoría. <span>Muy pronto.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIDEOCURRÍCULUM
+         ==================================================================== -->
+    <section class="section video" id="video" data-section data-palette="violeta">
+      <div class="wrap">
+        <div class="video__grid">
+          <div class="video__text">
+            <span class="eyebrow reveal"><i class="dot"></i><span id="videoEyebrow"></span></span>
+            <h2 class="sectionTitle" data-lines id="videoTitle"></h2>
+            <p class="lead reveal" id="videoText"></p>
+            <a class="btn btn--primary magnetic" id="videoLink" target="_blank" rel="noopener noreferrer"
+              data-cursor="YouTube">
+              <span>Ver en YouTube</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14m0 0-5.5-5.5M19 12l-5.5 5.5" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Fachada: la miniatura se carga primero y el iframe solo al pulsar -->
+          <div class="video__player" id="videoPlayer" data-cursor="Reproducir">
+            <button class="video__play" aria-label="Reproducir videocurrículum">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5.5v13l11-6.5z" />
+              </svg>
+            </button>
+            <div class="video__shine"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         CONTACTO
+         ==================================================================== -->
+    <section class="section contact" id="contacto" data-section data-palette="oro">
+      <div class="wrap">
+        <span class="eyebrow reveal"><i class="dot"></i><span id="contactEyebrow"></span></span>
+        <h2 class="contact__title" data-split-big id="contactTitle"></h2>
+        <p class="lead reveal" id="contactText"></p>
+
+        <a class="contact__mail magnetic" id="mailBtn" data-cursor="Copiar">
+          <span id="mailText"></span>
+          <small>Pulsa para copiar</small>
+        </a>
+
+        <ul class="contact__socials" id="contactSocials"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <span id="footerLeft"></span>
+      <span class="footer__made">Hecho con <b>Three.js</b>, café y mucho <span class="heart">♥</span></span>
+      <button class="footer__top magnetic" id="toTop" data-cursor="Arriba">Volver arriba ↑</button>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

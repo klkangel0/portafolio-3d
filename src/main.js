@@ -29,6 +29,7 @@ import {
   iniciarCopiarEmail,
   iniciarBotonArriba,
 } from './modules/interfaz.js';
+import { iniciarCasos } from './modules/caso.js';
 
 /* 1 y 2. Contenido y textos ------------------------------------------------ */
 pintarTodo();
@@ -51,6 +52,7 @@ const lenis = iniciarScroll({
 iniciarCursor();
 iniciarMenu();
 iniciarFiltros();
+iniciarCasos();
 iniciarVideo();
 iniciarCopiarEmail();
 iniciarBotonArriba(lenis);

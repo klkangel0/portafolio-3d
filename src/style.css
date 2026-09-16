@@ -1243,9 +1243,21 @@ body.menu-abierto .menu {
   top: 3.1rem;
   left: 1.2rem;
   z-index: 2;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  background: rgba(5, 6, 10, 0.6);
+  backdrop-filter: blur(6px);
   font-family: var(--mono);
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Sobre una captura real no hay barra de poster, pero si interfaz: se va a la
+   esquina contraria para no taparla */
+.card__media:has(.poster__img) .card__index {
+  top: 1rem;
+  left: auto;
+  right: 1rem;
 }
 
 .card__media img.poster__img {
@@ -1483,6 +1495,533 @@ body.menu-abierto .menu {
 
 .projects__empty span {
   color: var(--oro);
+}
+
+/* ===================== 11b. CASO DE ESTUDIO (DESPLEGABLE) ================ */
+
+/* --- Pistas en la tarjeta --- */
+
+.card--abrible .card__media {
+  cursor: pointer;
+}
+
+.card__open {
+  position: absolute;
+  inset: auto 1.1rem 1.1rem auto;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(8, 9, 14, 0.62);
+  backdrop-filter: blur(10px);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease, background-color 0.4s ease;
+}
+
+.card__open i {
+  display: grid;
+  place-items: center;
+}
+
+.card__open svg {
+  width: 14px;
+  height: 14px;
+}
+
+.card__media:hover .card__open,
+.card__media:focus-visible .card__open {
+  opacity: 1;
+  transform: translateY(0);
+  background: color-mix(in srgb, var(--c) 82%, #05060a);
+  color: #08090d;
+  border-color: transparent;
+}
+
+/* En tactil no hay hover: la pista se queda siempre visible */
+@media (hover: none) {
+  .card__open {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.card__link--solido {
+  color: #08090d;
+  background: var(--c);
+  border-color: var(--c);
+  cursor: pointer;
+}
+
+.card__link--solido:hover {
+  filter: brightness(1.12);
+}
+
+.card__privado {
+  align-self: center;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  color: var(--texto-suave);
+}
+
+/* --- La capa --- */
+
+body.caso-abierto {
+  overflow: hidden;
+}
+
+.caso {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+}
+
+.caso[hidden] {
+  display: none !important;
+}
+
+.caso__fondo {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 4, 7, 0.82);
+  backdrop-filter: blur(14px);
+}
+
+.caso__panel {
+  position: absolute;
+  inset: clamp(0px, 2vh, 28px) clamp(0px, 2vw, 34px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  border-radius: clamp(0px, 2vw, var(--radio));
+  border: 1px solid var(--linea);
+  background: linear-gradient(180deg, #080a10, #05060a 40%);
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Barra fija de la capa --- */
+
+.caso__barra {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem clamp(1.1rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--linea);
+  background: rgba(6, 7, 11, 0.78);
+  backdrop-filter: blur(16px);
+}
+
+.caso__barraTitulo {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.caso__cerrar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--linea-fuerte);
+  color: var(--texto);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.caso__cerrar svg {
+  width: 17px;
+  height: 17px;
+}
+
+.caso__cerrar:hover {
+  background: var(--c, var(--oro));
+  border-color: transparent;
+  color: #08090d;
+}
+
+/* El panel recibe el foco al abrir sólo para los lectores de pantalla */
+.caso__panel:focus,
+.caso__panel:focus-visible {
+  outline: none;
+}
+
+.caso__cuerpo :focus-visible,
+.caso__barra :focus-visible {
+  outline: 2px solid var(--c, var(--oro));
+  outline-offset: 3px;
+}
+
+.caso__cuerpo {
+  width: min(1080px, 100% - clamp(2.2rem, 8vw, 6rem));
+  margin-inline: auto;
+  padding-block: clamp(2.5rem, 7vw, 5.5rem) clamp(3rem, 8vw, 6rem);
+}
+
+/* --- Cabecera del caso --- */
+
+.casoHero__marca {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.casoHero__indice {
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  background: var(--c);
+  color: #08090d;
+  font-weight: 500;
+}
+
+.casoHero__etiqueta {
+  color: var(--c);
+}
+
+.casoHero__anio::before {
+  content: '·';
+  margin-right: 0.9rem;
+}
+
+.casoHero__titulo {
+  display: grid;
+  margin: 1.5rem 0 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.1rem, 1.1rem + 3.6vw, 4.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.casoHero__titulo span:last-child {
+  color: transparent;
+  -webkit-text-stroke: 1.2px color-mix(in srgb, var(--c) 85%, transparent);
+}
+
+.casoHero__intro {
+  max-width: 62ch;
+  margin: 1.6rem 0 0;
+  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.2rem);
+  color: var(--texto-suave);
+}
+
+.casoHero__intro b {
+  color: var(--texto);
+  font-weight: 500;
+}
+
+.casoHero__ficha {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1px;
+  margin-top: 2.6rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-s);
+  background: var(--linea);
+  overflow: hidden;
+}
+
+.casoHero__ficha li {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.1rem 1.2rem;
+  background: #07080d;
+}
+
+.casoHero__fichaLabel {
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.casoHero__fichaValor {
+  font-size: 0.93rem;
+  color: var(--texto);
+}
+
+/* --- Cifras --- */
+
+.casoMetricas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: clamp(1rem, 3vw, 2rem);
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  padding: clamp(1.4rem, 3vw, 2.2rem) 0;
+  border-block: 1px solid var(--linea);
+}
+
+.casoMetricas__num {
+  display: block;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2rem, 1.2rem + 2.2vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--c);
+}
+
+.casoMetricas__num i {
+  font-style: normal;
+  font-size: 0.55em;
+}
+
+.casoMetricas__label {
+  display: block;
+  margin-top: 0.55rem;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+/* --- Stack --- */
+
+.casoStack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.8rem);
+  margin-top: clamp(2.2rem, 5vw, 3.2rem);
+}
+
+.casoStack__grupo {
+  padding: 1.4rem 1.5rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-s);
+  background: var(--cristal);
+}
+
+.casoStack__grupo h4 {
+  margin: 0 0 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c);
+}
+
+.casoStack__grupo ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.casoStack__grupo li {
+  padding: 0.3rem 0.7rem;
+  border-radius: 99px;
+  border: 1px solid var(--linea);
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+}
+
+/* --- Capitulos --- */
+
+.casoCaps {
+  display: grid;
+  gap: clamp(3.5rem, 9vw, 7rem);
+  margin-top: clamp(3.5rem, 9vw, 7rem);
+}
+
+.casoCap {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(1.8rem, 4vw, 3.4rem);
+  align-items: center;
+}
+
+.casoCap--invertido .casoCap__media {
+  order: 2;
+}
+
+.casoCap__media {
+  margin: 0;
+  border-radius: var(--radio-s);
+  overflow: hidden;
+  border: 1px solid var(--linea);
+  background: #0a0c12;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.casoCap__img {
+  width: 100%;
+  height: auto;
+}
+
+/* Las capturas de movil van en pareja, sobre un fondo teñido */
+.casoCap__movil {
+  display: flex;
+  justify-content: center;
+  gap: clamp(0.8rem, 2vw, 1.6rem);
+  padding: clamp(1.2rem, 3vw, 2.2rem);
+  background: radial-gradient(90% 90% at 50% 0%, color-mix(in srgb, var(--c) 16%, transparent), transparent 70%);
+}
+
+.casoCap__movil img {
+  width: 46%;
+  max-width: 230px;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid var(--linea-fuerte);
+}
+
+.casoCap__etiqueta {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c);
+}
+
+.casoCap__titulo {
+  margin: 0.9rem 0 0.9rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 1rem + 1.3vw, 2.1rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.casoCap__parrafo {
+  margin: 0 0 1.3rem;
+  color: var(--texto-suave);
+}
+
+.casoCap__parrafo b {
+  color: var(--texto);
+  font-weight: 500;
+}
+
+.casoCap__puntos {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.casoCap__puntos li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 0.89rem;
+  color: var(--texto-suave);
+}
+
+.casoCap__puntos li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 9px;
+  height: 1px;
+  background: var(--c);
+}
+
+/* --- Retos --- */
+
+.casoRetos {
+  margin-top: clamp(4rem, 10vw, 7rem);
+}
+
+.casoRetos__titulo {
+  margin: 0 0 2rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 1rem + 1.6vw, 2.4rem);
+  letter-spacing: -0.025em;
+}
+
+.casoRetos__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.6rem);
+}
+
+.casoReto {
+  padding: 1.5rem 1.6rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-s);
+  background: var(--cristal);
+  transition: border-color 0.35s ease, transform 0.35s ease;
+}
+
+.casoReto:hover {
+  border-color: color-mix(in srgb, var(--c) 55%, transparent);
+  transform: translateY(-4px);
+}
+
+.casoReto h4 {
+  margin: 0 0 0.7rem;
+  font-family: var(--display);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.casoReto p {
+  margin: 0;
+  font-size: 0.87rem;
+  color: var(--texto-suave);
+}
+
+/* --- Pie --- */
+
+.casoPie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: clamp(3.5rem, 8vw, 5.5rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--linea);
+}
+
+.casoPie__nota {
+  max-width: 54ch;
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+.casoPie__cerrar {
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--linea-fuerte);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
+.casoPie__cerrar:hover {
+  background: var(--c);
+  border-color: transparent;
+  color: #08090d;
+}
+
+@media (max-width: 860px) {
+  .casoCap {
+    grid-template-columns: 1fr;
+  }
+
+  .casoCap--invertido .casoCap__media {
+    order: 0;
+  }
 }
 
 /* ============================== 12. VIDEO ================================ */

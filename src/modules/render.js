@@ -151,8 +151,12 @@ function pintarStack() {
               (item) => `
             <li class="skill" data-nivel="${item.nivel}">
               <div class="skill__head">
-                <img src="${iconoTech(item.icono)}" alt="" loading="lazy" width="18" height="18"
-                     onerror="this.remove()" />
+                ${
+                  item.icono
+                    ? `<img src="${iconoTech(item.icono)}" alt="" loading="lazy" width="18" height="18"
+                     onerror="this.remove()" />`
+                    : ''
+                }
                 <span class="skill__name">${item.nombre}</span>
                 <span class="skill__pct">${item.nivel}%</span>
               </div>
@@ -212,10 +216,15 @@ function pintarProyectos() {
   $('#projectsList').innerHTML = proyectos
     .map(
       (p) => `
-      <article class="card" data-cat="${p.categoria}" data-id="${p.id}" style="--c:${p.color}">
-        <div class="card__media" data-tilt>
+      <article class="card${p.caso ? ' card--abrible' : ''}" data-cat="${p.categoria}" data-id="${p.id}" style="--c:${p.color}">
+        <div class="card__media" data-tilt ${p.caso ? `data-abrir-caso="${p.id}" data-cursor="Ver caso"` : ''}>
           ${poster(p)}
           <span class="card__index">${p.indice}</span>
+          ${
+            p.caso
+              ? `<span class="card__open"><i>${iconos.flecha}</i><b>Ver el caso completo</b></span>`
+              : ''
+          }
         </div>
 
         <div class="card__body">
@@ -238,6 +247,11 @@ function pintarProyectos() {
 
           <div class="card__links">
             ${
+              p.caso
+                ? `<button type="button" class="card__link card__link--solido magnetic" data-abrir-caso="${p.id}" data-cursor="Ver caso">${iconos.flecha}<span>Ver el caso completo</span></button>`
+                : ''
+            }
+            ${
               p.enlace
                 ? `<a href="${p.enlace}" target="_blank" rel="noopener noreferrer" class="card__link magnetic" data-cursor="Abrir">${iconos.enlace}<span>Ver en vivo</span></a>`
                 : ''
@@ -247,11 +261,131 @@ function pintarProyectos() {
                 ? `<a href="${p.repo}" target="_blank" rel="noopener noreferrer" class="card__link magnetic" data-cursor="Código">${iconos.github}<span>Código</span></a>`
                 : ''
             }
+            ${p.privado ? `<span class="card__privado">${p.privado}</span>` : ''}
           </div>
         </div>
       </article>`
     )
     .join('');
+}
+
+/* -------------------------------------------------------------------------- */
+/* Caso de estudio (lo que se despliega al abrir una tarjeta)                  */
+/* -------------------------------------------------------------------------- */
+
+/** Un capitulo: captura a un lado, explicacion al otro, alternando. */
+function capituloCaso(cap, i) {
+  const media = cap.movil
+    ? `<div class="casoCap__movil">
+         <img src="${cap.imagen}" alt="${cap.alt}" loading="lazy" />
+         ${
+           cap.imagenSecundaria
+             ? `<img src="${cap.imagenSecundaria}" alt="" loading="lazy" />`
+             : ''
+         }
+       </div>`
+    : `<img class="casoCap__img" src="${cap.imagen}" alt="${cap.alt}" loading="lazy" />`;
+
+  return `
+    <article class="casoCap${i % 2 ? ' casoCap--invertido' : ''}">
+      <figure class="casoCap__media" data-caso-anim>
+        ${media}
+      </figure>
+
+      <div class="casoCap__texto" data-caso-anim>
+        <span class="casoCap__etiqueta">${cap.etiqueta}</span>
+        <h3 class="casoCap__titulo">${cap.titulo}</h3>
+        <p class="casoCap__parrafo">${cap.texto}</p>
+        <ul class="casoCap__puntos">
+          ${cap.puntos.map((punto) => `<li>${punto}</li>`).join('')}
+        </ul>
+      </div>
+    </article>`;
+}
+
+/** Construye el contenido completo del caso de un proyecto. */
+export function htmlCaso(p) {
+  const c = p.caso;
+
+  return `
+    <header class="casoHero" style="--c:${p.color}">
+      <div class="casoHero__marca" data-caso-anim>
+        <span class="casoHero__indice">${p.indice}</span>
+        <span class="casoHero__etiqueta">${c.etiqueta}</span>
+        <span class="casoHero__anio">${p.anio}</span>
+      </div>
+
+      <h2 class="casoHero__titulo" data-caso-anim>
+        ${c.titular
+          .split('\n')
+          .map((linea) => `<span>${linea}</span>`)
+          .join('')}
+      </h2>
+
+      <p class="casoHero__intro" data-caso-anim>${c.intro}</p>
+
+      <ul class="casoHero__ficha" data-caso-anim>
+        ${c.rol
+          .map(
+            (r) => `
+          <li>
+            <span class="casoHero__fichaLabel">${r.label}</span>
+            <span class="casoHero__fichaValor">${r.valor}</span>
+          </li>`
+          )
+          .join('')}
+      </ul>
+    </header>
+
+    <ul class="casoMetricas" data-caso-anim>
+      ${c.metricas
+        .map(
+          (m) => `
+        <li>
+          <span class="casoMetricas__num">${m.valor}<i>${m.sufijo}</i></span>
+          <span class="casoMetricas__label">${m.label}</span>
+        </li>`
+        )
+        .join('')}
+    </ul>
+
+    <section class="casoStack" data-caso-anim>
+      ${c.stack
+        .map(
+          (g) => `
+        <div class="casoStack__grupo">
+          <h4>${g.grupo}</h4>
+          <ul>${g.items.map((it) => `<li>${it}</li>`).join('')}</ul>
+        </div>`
+        )
+        .join('')}
+    </section>
+
+    <div class="casoCaps">
+      ${c.capitulos.map(capituloCaso).join('')}
+    </div>
+
+    <section class="casoRetos">
+      <h3 class="casoRetos__titulo" data-caso-anim>Lo que costó resolver</h3>
+      <div class="casoRetos__grid">
+        ${c.retos
+          .map(
+            (r) => `
+          <article class="casoReto" data-caso-anim>
+            <h4>${r.titulo}</h4>
+            <p>${r.texto}</p>
+          </article>`
+          )
+          .join('')}
+      </div>
+    </section>
+
+    <footer class="casoPie" data-caso-anim>
+      <p class="casoPie__nota">${c.nota}</p>
+      <button type="button" class="casoPie__cerrar magnetic" data-cerrar-caso data-cursor="Cerrar">
+        Volver a los proyectos
+      </button>
+    </footer>`;
 }
 
 function pintarVideo() {

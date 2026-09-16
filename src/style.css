@@ -423,7 +423,7 @@ body.sin-webgl::before {
 .cursor {
   position: fixed;
   inset: 0;
-  z-index: 90;
+  z-index: 150;
   pointer-events: none;
   opacity: 0;
   mix-blend-mode: difference;
@@ -1670,6 +1670,60 @@ body.caso-abierto {
   padding-block: clamp(2.5rem, 7vw, 5.5rem) clamp(3rem, 8vw, 6rem);
 }
 
+/* --- Lightbox: la captura ampliada --- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 140;
+}
+
+.lightbox[hidden] {
+  display: none !important;
+}
+
+.lightbox__fondo {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 4, 7, 0.92);
+  backdrop-filter: blur(20px);
+  cursor: zoom-out;
+}
+
+.lightbox__img {
+  object-fit: contain;
+  border: 1px solid var(--linea-fuerte);
+  box-shadow: 0 50px 140px rgba(0, 0, 0, 0.65);
+  cursor: zoom-out;
+}
+
+.lightbox__cerrar {
+  position: fixed;
+  top: clamp(14px, 3vh, 28px);
+  right: clamp(14px, 3vw, 28px);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--linea-fuerte);
+  background: rgba(6, 7, 11, 0.7);
+  color: var(--texto);
+  backdrop-filter: blur(10px);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.lightbox__cerrar svg {
+  width: 18px;
+  height: 18px;
+}
+
+.lightbox__cerrar:hover {
+  background: var(--oro);
+  border-color: transparent;
+  color: #08090d;
+}
+
 /* --- Cabecera del caso --- */
 
 .casoHero__marca {
@@ -1863,6 +1917,7 @@ body.caso-abierto {
 .casoCap__img {
   width: 100%;
   height: auto;
+  cursor: zoom-in;
 }
 
 /* Las capturas de movil van en pareja, sobre un fondo teñido */
@@ -1880,6 +1935,7 @@ body.caso-abierto {
   height: auto;
   border-radius: 14px;
   border: 1px solid var(--linea-fuerte);
+  cursor: zoom-in;
 }
 
 .casoCap__etiqueta {

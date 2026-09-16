@@ -16,6 +16,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { proyectos } from '../data/content.js';
 import { htmlCaso } from './render.js';
 import { iconos } from './iconos.js';
+import { lightboxAbierto } from './lightbox.js';
 
 const movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -34,7 +35,7 @@ function crearCapa() {
   capa.hidden = true;
   capa.innerHTML = `
     <div class="caso__fondo" data-cerrar-caso></div>
-    <section class="caso__panel" role="dialog" aria-modal="true" aria-label="Caso de estudio" tabindex="-1">
+    <section class="caso__panel" data-lenis-prevent role="dialog" aria-modal="true" aria-label="Caso de estudio" tabindex="-1">
       <header class="caso__barra">
         <span class="caso__barraTitulo"></span>
         <button type="button" class="caso__cerrar magnetic" data-cerrar-caso
@@ -167,6 +168,6 @@ export function iniciarCasos() {
   });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && abierto) cerrar();
+    if (e.key === 'Escape' && abierto && !lightboxAbierto()) cerrar();
   });
 }

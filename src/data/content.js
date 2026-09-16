@@ -356,7 +356,7 @@ export const proyectos = [
     ],
     tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'SQL Server', 'Tailwind'],
     color: '#22d3ee',
-    imagen: `${base}img/proyectos/consman/panel.webp`,
+    imagen: `${base}img/proyectos/consman/direccion.png`,
     enlace: '',
     repo: '',
     privado: 'Código privado de la empresa',

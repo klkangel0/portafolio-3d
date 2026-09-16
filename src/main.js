@@ -30,6 +30,7 @@ import {
   iniciarBotonArriba,
 } from './modules/interfaz.js';
 import { iniciarCasos } from './modules/caso.js';
+import { iniciarLightbox } from './modules/lightbox.js';
 
 /* 1 y 2. Contenido y textos ------------------------------------------------ */
 pintarTodo();
@@ -53,6 +54,7 @@ iniciarCursor();
 iniciarMenu();
 iniciarFiltros();
 iniciarCasos();
+iniciarLightbox();
 iniciarVideo();
 iniciarCopiarEmail();
 iniciarBotonArriba(lenis);

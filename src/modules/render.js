@@ -277,14 +277,14 @@ function pintarProyectos() {
 function capituloCaso(cap, i) {
   const media = cap.movil
     ? `<div class="casoCap__movil">
-         <img src="${cap.imagen}" alt="${cap.alt}" loading="lazy" />
+         <img src="${cap.imagen}" alt="${cap.alt}" loading="lazy" data-lightbox data-cursor="Ampliar" />
          ${
            cap.imagenSecundaria
-             ? `<img src="${cap.imagenSecundaria}" alt="" loading="lazy" />`
+             ? `<img src="${cap.imagenSecundaria}" alt="" loading="lazy" data-lightbox data-cursor="Ampliar" />`
              : ''
          }
        </div>`
-    : `<img class="casoCap__img" src="${cap.imagen}" alt="${cap.alt}" loading="lazy" />`;
+    : `<img class="casoCap__img" src="${cap.imagen}" alt="${cap.alt}" loading="lazy" data-lightbox data-cursor="Ampliar" />`;
 
   return `
     <article class="casoCap${i % 2 ? ' casoCap--invertido' : ''}">

@@ -50,9 +50,9 @@ export const sobremi = {
   etiqueta: 'Sobre mí',
   titulo: 'Código con intención,\ninterfaces con carácter.',
   parrafos: [
-    'Soy <b>Ángel Motos Zambrano</b>, desarrollador web apasionado y ambicioso, con experiencia sólida en <b>JavaScript, HTML, CSS, Vue, PHP y MySQL</b>. Ahora mismo estoy ampliando mis habilidades en <b>React</b> y <b>Python</b> para convertirme en un full stack developer altamente versátil y preparado para cualquier reto.',
-    'Me destaco por mi <b>comunicación efectiva</b>, <b>proactividad</b> y capacidad de <b>trabajar en equipo</b>, aportando soluciones creativas y eficientes. Hablo <b>español</b>, <b>catalán</b> e <b>inglés intermedio</b> (preparando el FIRST) para colaborar en entornos internacionales.',
-    'En mi tiempo libre disfruto de los <b>videojuegos</b>, explorar nuevas tecnologías y compartir momentos con mi pareja: el equilibrio entre pasión profesional y vida personal es parte de cómo trabajo.',
+    'Soy <b>Ángel Motos Zambrano</b>, desarrollador full stack: construyo interfaces cuidadas y sistemas que aguantan el uso real, no solo la demo. Mi base son <b>JavaScript, HTML, CSS, Vue, PHP y MySQL</b>, y ahora mismo estoy afilando <b>React</b> y <b>Python</b> para no depender de una sola pila. La <b>IA</b> es una herramienta más de mi flujo de trabajo: la uso para programar más rápido y resolver problemas de infraestructura que de otro modo se comerían horas, pero el criterio y las decisiones son míos — la controlo yo, no al revés.',
+    'Me destaco por <b>comunicar claro</b>, tirar para adelante sin que me lo pidan y encontrar la vuelta cuando el camino obvio no funciona. Hablo <b>español</b> y <b>catalán</b> como lengua materna, e <b>inglés intermedio</b> (preparando el FIRST) para no quedarme fuera de ningún equipo internacional.',
+    'Fuera del código me encontrarás con un mando en la mano, trasteando con tecnología nueva o pasando tiempo con mi pareja: ese equilibrio entre pasión profesional y vida personal también se nota en cómo trabajo.',
   ],
   datos: [
     { valor: '4', sufijo: '+', label: 'Proyectos construidos' },
@@ -400,30 +400,6 @@ export const proyectos = [
     ],
     tags: ['JavaScript', 'Vue', 'MongoDB'],
     color: '#22d3ee',
-    imagen: '',
-    enlace: '',
-    repo: 'https://github.com/klkangel0',
-  },
-  {
-    id: 'pepephone',
-    indice: '04',
-    categoria: 'frontend',
-    categoriaLabel: 'Frontend',
-    titulo: 'PepePhone',
-    subtitulo: 'Rediseño y maquetación de la interfaz',
-    anio: '2025',
-    // OJO: en el portafolio original este proyecto tenia pegada por error la
-    // descripcion de SafeHolder. Aqui va un texto provisional coherente con un
-    // proyecto frontend: revisalo y ajustalo con los detalles reales.
-    descripcion:
-      'Proyecto <b>frontend</b> de maquetación e interfaz para la operadora <b>PepePhone</b>, centrado en una experiencia limpia, responsive y fiel al diseño original.',
-    detalles: [
-      'Maquetación responsive desde cero con HTML y CSS',
-      'Componentes de interfaz reutilizables e interacciones en JavaScript',
-      'Optimización de rendimiento y accesibilidad',
-    ],
-    tags: ['HTML', 'CSS', 'JavaScript', 'Responsive'],
-    color: '#7c5cff',
     imagen: '',
     enlace: '',
     repo: 'https://github.com/klkangel0',

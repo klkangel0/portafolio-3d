@@ -91,7 +91,11 @@ export function iniciarScroll({ alProgreso, alVelocidad, alSeccion } = {}) {
 
     e.preventDefault();
     document.body.classList.remove('menu-abierto');
-    lenis.scrollTo(destino, { offset: 0, duration: 1.4 });
+
+    // La cabecera es fija: sin este margen la seccion aterriza por debajo de
+    // ella y se come la etiqueta de la seccion
+    const margen = (cabecera?.offsetHeight ?? 0) + 12;
+    lenis.scrollTo(destino, { offset: -margen, duration: 1.4 });
   });
 
   return lenis;

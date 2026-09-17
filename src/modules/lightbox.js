@@ -45,8 +45,11 @@ function calcularDestino(rectOrigen) {
     (img.naturalWidth && img.naturalHeight && img.naturalWidth / img.naturalHeight) ||
     rectOrigen.width / rectOrigen.height;
 
-  const maxW = window.innerWidth * 0.92;
-  const maxH = window.innerHeight * 0.92;
+  // En pantallas estrechas se aprovecha casi todo el ancho: una captura de
+  // escritorio ya sale bastante pequena de por si
+  const estrecha = window.innerWidth < 700;
+  const maxW = window.innerWidth * (estrecha ? 0.96 : 0.92);
+  const maxH = window.innerHeight * (estrecha ? 0.86 : 0.92);
 
   let width = maxW;
   let height = width / ratio;

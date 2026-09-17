@@ -402,7 +402,12 @@ function pintarContacto() {
   $('#contactEyebrow').textContent = contacto.etiqueta;
   $('#contactTitle').textContent = contacto.titulo;
   $('#contactText').textContent = contacto.texto;
-  $('#mailText').textContent = profile.email;
+  // En movil el correo no cabe en una linea: marcamos la arroba como punto de
+  // corte para que no parta una palabra por la mitad ("...@gmai / l.com")
+  const [usuario, dominio] = profile.email.split('@');
+  const mail = $('#mailText');
+  mail.textContent = '';
+  mail.append(usuario, document.createElement('wbr'), `@${dominio}`);
   $('#mailBtn').setAttribute('href', `mailto:${profile.email}`);
 
   $('#contactSocials').innerHTML = socials

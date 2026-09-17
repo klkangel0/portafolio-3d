@@ -518,6 +518,8 @@ body.cursor-activo button {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  /* El avatar mide 38px: este relleno deja el enlace en 44px de alto tactil */
+  padding-block: 3px;
 }
 
 .header__avatar {
@@ -593,8 +595,10 @@ body.cursor-activo button {
   border: 1px solid var(--linea-fuerte);
   padding: 0;
   place-items: center;
+  /* Sin esto las dos filas se estiran hasta llenar los 44px y las barras
+     quedan demasiado separadas para cruzarse en aspa */
+  align-content: center;
   gap: 5px;
-  flex-direction: column;
 }
 
 .header__toggle span {
@@ -605,12 +609,14 @@ body.cursor-activo button {
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
 }
 
+/* Las dos barras estan separadas 5px: para cruzarlas en aspa cada una tiene
+   que recorrer exactamente la mitad de esa distancia mas su propio grosor */
 body.menu-abierto .header__toggle span:first-child {
-  transform: translateY(3.5px) rotate(45deg);
+  transform: translateY(3.25px) rotate(45deg);
 }
 
 body.menu-abierto .header__toggle span:last-child {
-  transform: translateY(-3px) rotate(-45deg);
+  transform: translateY(-3.25px) rotate(-45deg);
 }
 
 .header__progress {
@@ -2231,7 +2237,9 @@ body.caso-abierto {
   font-weight: 700;
   font-size: clamp(1rem, 0.9rem + 1vw, 1.7rem);
   letter-spacing: -0.02em;
-  word-break: break-all;
+  /* El <wbr> del marcado marca el corte bueno (antes de la arroba); esto solo
+     actua de red por si aun asi no cabe */
+  overflow-wrap: anywhere;
 }
 
 .contact__mail small {
@@ -2397,6 +2405,11 @@ body.caso-abierto {
     display: grid;
   }
 
+  /* Con menos ancho hay mas texto pasando por detras: el fondo tapa mejor */
+  .header.is-scrolled {
+    background: rgba(5, 6, 10, 0.78);
+  }
+
   .hero__meta {
     font-size: 0.6rem;
   }
@@ -2407,6 +2420,31 @@ body.caso-abierto {
 
   .sectionHead--split {
     align-items: flex-start;
+  }
+
+  /* Los filtros no caben en una linea: en vez de partirse en dos filas dentro
+     de la pildora, se deslizan en horizontal */
+  .filters {
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter {
+    flex: 0 0 auto;
+    padding-block: 0.75rem;
+  }
+
+  /* Las capturas reales son 16/9: con 16/11 se recortaban los laterales y se
+     veian trozos de la interfaz cortados */
+  .card__media:has(.poster__img) {
+    aspect-ratio: 16 / 9;
   }
 }
 
@@ -2425,6 +2463,25 @@ body.caso-abierto {
 
   .socialRow__handle {
     display: none;
+  }
+
+  /* "Intermedio · preparando el FIRST" se comia el ancho y chocaba con la
+     etiqueta del idioma */
+  .about__level {
+    font-size: 0.62rem;
+    line-height: 1.4;
+  }
+
+  .card__open {
+    inset: auto 0.7rem 0.7rem auto;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.62rem;
+  }
+
+  /* Objetivos tactiles: por debajo de 44px se fallan los toques */
+  .menu__footer a,
+  .footer__top {
+    padding-block: 0.75rem;
   }
 }
 
